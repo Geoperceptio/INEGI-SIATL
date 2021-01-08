@@ -1,0 +1,87 @@
+---
+output: html_document
+---
+<center>
+
+<span style="color:blue">**_Reporte Visual en HTML_**</span>
+================
+
+## Elaborado por Juan Carlos Grageola
+
+### 4 de enero del 2021
+
+Este es un documento informativo de tipo html <span style="color:green">**_generado automaticamente_**</span> utilizando el paquete <span style="color:orange">**_RMarkdown_ **</span> en <span style="color:blue">**_RStudio_ **</span>
+
+<br>
+<br>
+
+###**Matriz de correlación**
+
+
+```{r message=FALSE,echo=FALSE,results='asis',warning=FALSE}
+
+#Indicamos el directorio de trabajo donde se encuentra el archivo csv
+
+setwd("F:/ESTUDIO_ONLINE_R/CURSO_RMARKDOWN/PRACTICAS")
+
+
+
+#Leemos el archivo a analizar
+mtcar20<-read.csv("mtcar.csv", header = TRUE,sep = ",",dec = ".")
+
+
+#todas las variables deben de ser numericas por lo que quitamos las columnas que
+#son numericas
+
+mtcar20$Modelo=NULL
+
+#calculamos la correlacion existente entre las variables
+
+mtcar20_cor <- cor(mtcar20, method = "pearson")
+
+round_corr <- round(mtcar20_cor,digits = 1) #redondeamos los valores de las correlaciones para tener solo un decimal
+
+round_corr
+
+#Creamos la matriz de correlacion con graficos basicos de R
+#install.packages("corrplot")
+library(corrplot)
+ corrplot(round_corr)
+  
+
+# Matriz correlacion con ggplot2 ------------------------------------------
+
+ #install.packages("ggcorrplot")
+library(ggcorrplot)  
+
+ ggcorrplot(round_corr, method = "circle", type = "lower", lab = TRUE)+
+   ggtitle("Matriz de correlacion")+
+   theme_minimal()
+
+
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
